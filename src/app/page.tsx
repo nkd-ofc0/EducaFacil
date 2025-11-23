@@ -185,7 +185,7 @@ export default function Home() {
                 {/* LINKS REAIS DE NAVEGAÇÃO */}
                 <Link href="/termos" className="hover:text-white transition-colors">Termos de Uso</Link>
                 <Link href="/privacidade" className="hover:text-white transition-colors">Política de Privacidade</Link>
-                <a href="https://wa.me/5521999999999" target="_blank" className="hover:text-white transition-colors">Suporte</a>
+                <a href="https://wa.me/5521977402510" target="_blank" className="hover:text-white transition-colors">Suporte</a>
             </div>
 
             <div className="pt-8 border-t border-slate-800/50">
