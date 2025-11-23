@@ -1,23 +1,25 @@
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { tools } from '@/lib/tools';
-import { BookOpen, FileText, Calendar, Users, BrainCircuit, ClipboardList, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { BookOpen, FileText, Calendar, Users, BrainCircuit, ClipboardList, ArrowRight, CheckCircle2, Star } from 'lucide-react';
 
-// Mapeamento de ícones
-const iconMap: any = {
+// MAPA SEGURO DE ÍCONES
+// Isso conecta o texto "book" ao ícone BookOpen
+const iconMap: Record<string, any> = {
   'book': BookOpen,
   'file': FileText,
   'calendar': Calendar,
   'users': Users,
   'brain': BrainCircuit,
-  'list': ClipboardList
+  'list': ClipboardList,
+  'default': Star
 };
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50">
       
-      {/* HERO SECTION (Topo) */}
+      {/* HERO SECTION */}
       <div className="bg-white border-b border-slate-200 pb-16 pt-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block bg-blue-50 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
@@ -38,7 +40,7 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="mt-10 flex justify-center gap-8 text-sm text-slate-500 font-medium">
+          <div className="mt-10 flex justify-center gap-8 text-sm text-slate-500 font-medium flex-wrap">
             <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-green-500"/> Alinhado à BNCC</span>
             <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-green-500"/> Upload de Fotos</span>
             <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4 text-green-500"/> Teste Grátis</span>
@@ -46,15 +48,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* FERRAMENTAS (Grid) */}
+      {/* FERRAMENTAS */}
       <div id="ferramentas" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl font-bold text-slate-800 mb-10 text-center">O que você quer criar hoje?</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map((tool) => {
-                // Fallback simples para ícone se não achar
-                const Icon = tool.icon || BookOpen;
+                // Busca o ícone no mapa ou usa a estrela se não achar
+                const Icon = iconMap[tool.iconName] || iconMap['default'];
+                
                 return (
                 <Link key={tool.slug} href={`/ferramenta/${tool.slug}`} className="group">
                     <Card className="h-full border-slate-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300 cursor-pointer relative overflow-hidden bg-white">
@@ -82,8 +85,8 @@ export default function Home() {
          <p className="text-xs font-bold mb-4 uppercase tracking-widest">EducaFácil AI</p>
          <p className="text-xs mb-8">Desenvolvido por <span className="text-white">NKD Tecnologia</span></p>
          <div className="flex justify-center gap-6 text-[10px]">
-             <Link href="/termos" className="hover:text-white">Termos de Uso</Link>
-             <Link href="/privacidade" className="hover:text-white">Política de Privacidade</Link>
+             <span className="hover:text-white cursor-pointer">Termos de Uso</span>
+             <span className="hover:text-white cursor-pointer">Política de Privacidade</span>
          </div>
       </div>
     </div>
