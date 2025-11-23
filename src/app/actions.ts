@@ -3,67 +3,85 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-const SENHA_MESTRA = "PROF2025"; // Nova senha para professoras
+const SENHA_MESTRA = "PROF2025"; 
 
-export async function generateEducationalContent(slug: string, input1: string, input2: string, accessCode: string) {
+export async function generateEducationalContent(
+  slug: string, 
+  input1: string, 
+  input2: string, 
+  schoolContext: string, // Cabeçalho da escola
+  imageBase64: string | null, // Foto do livro/prova
+  accessCode: string
+) {
   
-  // Verificação de Senha (Igual ao outro, mas adaptado)
   if (accessCode !== SENHA_MESTRA) {
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Delay anti-brute-force
-    return { error: '⛔ Código de Acesso Inválido.' };
+    await new Promise(resolve => setTimeout(resolve, 1000)); 
+    return { error: '⛔ Senha incorreta. Faça login para usar.' };
   }
 
-  if (!process.env.GEMINI_API_KEY) return { error: 'Erro interno de configuração.' };
-  if (!input1 || !input2) return { error: 'Preencha todos os campos.' };
+  if (!process.env.GEMINI_API_KEY) return { error: 'Erro de configuração no servidor.' };
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-001' });
+    // Modelo Flash é rápido e vê imagens
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-    // O "Prompt Router": Escolhe o comando certo baseada na ferramenta escolhida
-    let prompt = "";
-
-    if (slug === 'plano-de-aula') {
-      prompt = `
-        Aja como uma Coordenadora Pedagógica Experiente.
-        Crie um Plano de Aula detalhado para: ${input1}.
-        Tema: ${input2}.
-        
-        Estrutura obrigatória:
-        1. Objetivos de Aprendizagem (BNCC se possível).
-        2. Estrutura da Aula (Cronograma em minutos).
-        3. Metodologia (Como explicar).
-        4. Atividade Prática sugerida.
-        5. Avaliação.
-        Use formatação clara, tópicos e negrito.
+    let promptContext = "";
+    
+    // Prompt Engenharia Pedagógica
+    if (slug === 'banco-de-questoes') {
+      promptContext = `Crie uma PROVA/LISTA DE EXERCÍCIOS.
+      INSTITUIÇÃO: ${schoolContext}
+      DISCIPLINA: ${input1}
+      CONTEÚDO: ${input2}
+      
+      REGRAS:
+      1. Crie um cabeçalho profissional com nome da escola (se fornecido).
+      2. Se houver imagem, use-a como base estrita para as questões.
+      3. Inclua GABARITO no final.
       `;
-    } else if (slug === 'gerador-de-questoes') {
-      prompt = `
-        Crie uma prova/lista de exercícios para: ${input1}.
-        Assunto: ${input2}.
-        
-        Gere o conteúdo com enunciado claro.
-        SEMPRE inclua o GABARITO no final.
-        Se for múltipla escolha, marque a correta no gabarito.
+    } else if (slug === 'adaptacao-inclusao') {
+      promptContext = `Você é especialista em Educação Inclusiva.
+      Adapte uma atividade para: ${input1}.
+      Conteúdo original: ${input2}.
+      Contexto Escolar: ${schoolContext}.
+      
+      Forneça estratégias práticas e o texto da atividade adaptada.
       `;
-    } else if (slug === 'relatorio-aluno') {
-      prompt = `
-        Escreva um relatório descritivo escolar profissional e empático para o aluno: ${input1}.
-        Características observadas: ${input2}.
-        
-        Use linguagem formal pedagógica, mas acolhedora.
-        Foque no desenvolvimento e sugestões de melhoria.
-        Evite termos negativos diretos, use "pontos de atenção".
+    } else if (slug === 'planejamento-anual') {
+      promptContext = `Crie um Planejamento Anual dividido por Bimestres.
+      Curso: ${input1}.
+      Foco: ${input2}.
+      Baseado na BNCC (Brasil).
       `;
     } else {
-      // Genérico para outras ferramentas
-      prompt = `Aja como um assistente escolar para ${input1}. Ajude com: ${input2}. Seja didático.`;
+      promptContext = `Atue como Coordenador Pedagógico. 
+      Ferramenta: ${slug}. 
+      Contexto 1: ${input1}. 
+      Contexto 2: ${input2}. 
+      Escola: ${schoolContext}.
+      Se houver imagem, analise-a pedagógicamente.
+      `;
     }
 
-    const result = await model.generateContent(prompt);
+    // Monta o pacote para a IA (Texto + Imagem Opcional)
+    const parts: any[] = [{ text: promptContext }];
+    
+    if (imageBase64) {
+      const base64Data = imageBase64.split(',')[1] || imageBase64;
+      parts.push({
+        inlineData: {
+          data: base64Data,
+          mimeType: "image/jpeg",
+        },
+      });
+    }
+
+    const result = await model.generateContent(parts);
     const response = await result.response;
     return { success: true, data: response.text() };
+    
   } catch (error: any) {
     console.error("Erro API:", error);
-    return { error: 'Erro ao gerar. Tente novamente.' };
+    return { error: 'Erro ao processar. Tente novamente ou use uma imagem menor.' };
   }
 }
