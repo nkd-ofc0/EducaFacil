@@ -1,10 +1,12 @@
 import { MetadataRoute } from 'next';
-import { niches } from '@/lib/niches';
+import { tools } from '@/lib/tools'; // <--- MUDOU DE NICHES PARA TOOLS
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://copy-factory.vercel.app'; // TROQUE PELO SEU LINK REAL DA VERCEL
+  // Se já tiver o link novo da Vercel do EducaFácil, coloque aqui. 
+  // Se não, deixe assim e mude depois.
+  const baseUrl = 'https://educa-facil.vercel.app'; 
 
-  // Página principal
+  // 1. Página Principal
   const routes = [
     {
       url: baseUrl,
@@ -14,13 +16,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Páginas de nicho automáticas
-  const nicheRoutes = niches.map((niche) => ({
-    url: `${baseUrl}/legenda-para-${niche.slug}`,
+  // 2. Páginas de Ferramentas (Dinâmicas)
+  const toolRoutes = tools.map((tool) => ({
+    url: `${baseUrl}/ferramenta/${tool.slug}`, // <--- MUDOU A ROTA
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));
 
-  return [...routes, ...nicheRoutes];
+  return [...routes, ...toolRoutes];
 }
