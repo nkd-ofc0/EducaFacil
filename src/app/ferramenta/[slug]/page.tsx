@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { TeacherTool } from '@/components/TeacherTool';
-import { tools } from '@/lib/tools';
+import { tools } from '@/lib/tools'; // <--- IMPORTA AS FERRAMENTAS CERTAS
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 
@@ -10,6 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
+  // Busca na lista certa (tools)
   const tool = tools.find((t) => t.slug === resolvedParams.slug);
   
   return {
@@ -29,6 +30,7 @@ export default async function Page({ params }: Props) {
          </Link>
        </div>
 
+      {/* Chama a ferramenta passando o slug atual */}
       <TeacherTool currentSlug={resolvedParams.slug} />
 
       <div className="mt-20 mb-10 text-center">
