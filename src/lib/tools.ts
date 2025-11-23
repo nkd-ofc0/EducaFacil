@@ -1,5 +1,4 @@
-import { BookOpen, FileText, Calendar, Users, BrainCircuit, GraduationCap, Sparkles, ClipboardList } from 'lucide-react';
-
+// Configuração limpa e segura para o Build
 export type ToolConfig = {
   slug: string;
   title: string;
@@ -7,7 +6,7 @@ export type ToolConfig = {
   labelInput1: string;
   labelInput2: string;
   placeholderInput2: string;
-  icon: any;
+  iconName: string; // Usamos texto simples aqui para não quebrar o build
 };
 
 export const tools: ToolConfig[] = [
@@ -18,7 +17,7 @@ export const tools: ToolConfig[] = [
     labelInput1: "Disciplina e Ano (Ex: Ciências, 4º Ano)",
     labelInput2: "Tema da Aula",
     placeholderInput2: "Ex: Ciclo da Água e preservação...",
-    icon: BookOpen
+    iconName: "book"
   },
   {
     slug: "banco-de-questoes",
@@ -27,7 +26,7 @@ export const tools: ToolConfig[] = [
     labelInput1: "Disciplina e Nível de Dificuldade",
     labelInput2: "Conteúdo ou Tópicos",
     placeholderInput2: "Ex: 5 questões de múltipla escolha e 2 dissertativas sobre Frações...",
-    icon: FileText
+    iconName: "file"
   },
   {
     slug: "planejamento-anual",
@@ -36,7 +35,7 @@ export const tools: ToolConfig[] = [
     labelInput1: "Disciplina e Série",
     labelInput2: "Foco ou Livro Didático utilizado",
     placeholderInput2: "Ex: Foco em alfabetização e letramento...",
-    icon: Calendar
+    iconName: "calendar"
   },
   {
     slug: "adaptacao-inclusao",
@@ -45,7 +44,7 @@ export const tools: ToolConfig[] = [
     labelInput1: "Necessidade do Aluno (Ex: Aluno com TEA nível 1)",
     labelInput2: "Atividade original para adaptar",
     placeholderInput2: "Cole a atividade original aqui ou descreva o objetivo...",
-    icon: Users
+    iconName: "users"
   },
   {
     slug: "relatorio-individual",
@@ -54,7 +53,7 @@ export const tools: ToolConfig[] = [
     labelInput1: "Nome do Aluno",
     labelInput2: "Observações (Comportamento/Desempenho)",
     placeholderInput2: "Ex: Participativo, mas com dificuldade em interpretação...",
-    icon: ClipboardList
+    iconName: "list"
   },
   {
     slug: "tradutor-pedagogico",
@@ -63,6 +62,6 @@ export const tools: ToolConfig[] = [
     labelInput1: "Idade dos Alunos",
     labelInput2: "Texto ou Tema complexo",
     placeholderInput2: "Cole o texto difícil aqui ou envie a foto...",
-    icon: BrainCircuit
+    iconName: "brain"
   }
 ];
