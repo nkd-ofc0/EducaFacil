@@ -190,7 +190,7 @@ export default function Home() {
 
             <div className="pt-8 border-t border-slate-800/50">
                 <p className="text-xs text-slate-600">
-                    Desenvolvido com 💙 por <a href="https://instagram.com/SEU_INSTAGRAM" target="_blank" className="text-blue-500 hover:text-blue-400 font-bold">NKD Tecnologia</a>
+                    Desenvolvido com 💙 por <a href="https://www.instagram.com/nkd.ofc/" target="_blank" className="text-blue-500 hover:text-blue-400 font-bold">NKD Tecnologia</a>
                 </p>
             </div>
          </div>
