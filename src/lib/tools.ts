@@ -1,4 +1,3 @@
-// Configuração limpa e segura para o Build
 export type ToolConfig = {
   slug: string;
   title: string;
@@ -6,7 +5,7 @@ export type ToolConfig = {
   labelInput1: string;
   labelInput2: string;
   placeholderInput2: string;
-  iconName: string; // Usamos texto simples aqui para não quebrar o build
+  iconName: string;
 };
 
 export const tools: ToolConfig[] = [
@@ -23,7 +22,7 @@ export const tools: ToolConfig[] = [
     slug: "banco-de-questoes",
     title: "Fábrica de Provas e Questões",
     description: "Crie provas completas, listas de exercícios ou simulados com gabarito automático.",
-    labelInput1: "Disciplina e Nível de Dificuldade",
+    labelInput1: "Disciplina e Nível",
     labelInput2: "Conteúdo ou Tópicos",
     placeholderInput2: "Ex: 5 questões de múltipla escolha e 2 dissertativas sobre Frações...",
     iconName: "file"
@@ -41,7 +40,7 @@ export const tools: ToolConfig[] = [
     slug: "adaptacao-inclusao",
     title: "Adaptação Curricular (Inclusão)",
     description: "Adapte atividades para alunos com TEA, TDAH ou outras necessidades específicas.",
-    labelInput1: "Necessidade do Aluno (Ex: Aluno com TEA nível 1)",
+    labelInput1: "Necessidade do Aluno",
     labelInput2: "Atividade original para adaptar",
     placeholderInput2: "Cole a atividade original aqui ou descreva o objetivo...",
     iconName: "users"
@@ -51,7 +50,7 @@ export const tools: ToolConfig[] = [
     title: "Relatórios e Pareceres",
     description: "Gere os textos para boletins e fichas individuais com linguagem pedagógica profissional.",
     labelInput1: "Nome do Aluno",
-    labelInput2: "Observações (Comportamento/Desempenho)",
+    labelInput2: "Observações",
     placeholderInput2: "Ex: Participativo, mas com dificuldade em interpretação...",
     iconName: "list"
   },
